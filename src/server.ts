@@ -7,6 +7,6 @@ const server = Fastify({
   },
 });
 
-server.register(routesRegister, { prefix: "/v1" });
+server.register(routesRegister);
 
 export { server };
