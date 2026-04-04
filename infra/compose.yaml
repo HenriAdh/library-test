@@ -1,0 +1,17 @@
+name: library_tests
+
+services:
+  db:
+    image: postgres:18
+    container_name: library_tests_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret_password
+      POSTGRES_DB: library_tests
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/docker
+
+volumes:
+  postgres_data:
