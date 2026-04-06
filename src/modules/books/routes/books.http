@@ -1,0 +1,35 @@
+@hostname = localhost
+@port = 3000
+@protocol = http
+@host = {{protocol}}://{{hostname}}:{{port}}
+@contentType = application/json
+
+###
+
+POST {{host}}/books/ HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "title": "O pequeno principe",
+  "author": "Nao me lembro"
+}
+
+###
+
+GET {{host}}/books/ HTTP/1.1
+
+### 
+
+@id = fdb12dc5-1d2d-4788-9beb-e4fdaad594a5
+
+GET {{host}}/books/{{id}} HTTP/1.1
+
+
+###
+
+PATCH {{host}}/books/{{id}} HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "author": "Antoine de Saint-Exupéry"
+}

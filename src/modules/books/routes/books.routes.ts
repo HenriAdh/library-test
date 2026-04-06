@@ -1,8 +1,11 @@
-import { FastifyInstance } from "fastify";
+import { FastifyInstance, FastifyPluginOptions } from "fastify";
 import { BooksController } from "../controller";
 
 export async function booksRoutes(app: FastifyInstance) {
-  const controller = new BooksController();
+  const booksController = new BooksController();
 
-  app.post("/", controller.create.bind(controller));
+  app.post("/", booksController.create);
+  app.get("/", booksController.findAll);
+  app.get("/:id", booksController.findById);
+  app.patch("/:id", booksController.update);
 }

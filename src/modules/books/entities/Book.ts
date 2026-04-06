@@ -1,0 +1,10 @@
+class Book {
+  constructor(
+    public id: string,
+    public title: string,
+    public author: string,
+    public available: boolean = true,
+  ) {}
+}
+
+export { Book };
