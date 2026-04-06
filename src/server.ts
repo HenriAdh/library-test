@@ -1,5 +1,6 @@
 import Fastify from "fastify";
 import { routesRegister } from "./routes";
+import { errorHandler } from "./shared/middlewares/errorHandler";
 
 const server = Fastify({
   logger: {
@@ -8,5 +9,7 @@ const server = Fastify({
 });
 
 server.register(routesRegister);
+
+server.setErrorHandler(errorHandler);
 
 export { server };
