@@ -15,7 +15,8 @@
     "incremental": true,
     "plugins": [],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@generated/*": ["./generated/prisma/*"]
     },
     "ignoreDeprecations": "6.0"
   },

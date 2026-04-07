@@ -1,29 +1,24 @@
 import { prisma } from "@/shared/lib/prisma";
-import { Book } from "../../entities/Book";
 import { IBookRepository } from "../IBookRepository";
+import { BookCreateInput } from "@generated/models";
+import { Book } from "@generated/client";
 
 class BookRepository implements IBookRepository {
-  async create(data: Book): Promise<Book> {
-    const book = await prisma.book.create({ data });
-
-    return book;
+  async create(data: BookCreateInput): Promise<Book> {
+    return prisma.book.create({ data });
   }
 
   async findAll(): Promise<Book[]> {
-    const books = await prisma.book.findMany();
-
-    return books;
+    return prisma.book.findMany();
   }
 
   async findById(id: string): Promise<Book | null> {
-    const book = await prisma.book.findUnique({ where: { id } });
-
-    return book;
+    return prisma.book.findUnique({ where: { id } });
   }
 
   async save({ id, title, author, available, active }: Book): Promise<void> {
     await prisma.book.update({
-      where: { id: id },
+      where: { id },
       data: { title, author, available, active },
     });
   }

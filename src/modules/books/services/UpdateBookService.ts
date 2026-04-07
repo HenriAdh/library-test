@@ -5,7 +5,7 @@ import { UpdateBookBody } from "../dtos/updateBookDTO";
 export class UpdateBookService {
   constructor(private bookRepository: IBookRepository) {}
 
-  async execute(id: string, data: UpdateBookBody) {
+  async execute({ id, ...data }: UpdateBookBody & { id: string }) {
     const book = await this.bookRepository.findById(id);
 
     if (!book) throw new NotFoundException("Livro não encontrado");
@@ -14,7 +14,7 @@ export class UpdateBookService {
     book.author = data.author ?? book.author;
     book.available = data.available ?? book.available;
 
-    this.bookRepository.save(book);
+    await this.bookRepository.save(book);
 
     return book;
   }

@@ -1,22 +1,17 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { CreateBookService } from "./services/CreateBookService";
 import { HttpStatusCode } from "@/shared/utils/HttpStatusCode";
 import { createBookBody } from "./dtos/createBookDTO";
-import { BookRepository } from "./repositories/implementations/BookRepository";
-import { FindAllBookService } from "./services/FindAllBookService";
-import { FindBookByIdService } from "./services/FindBookByIdService";
 import { findBookByIdParams } from "./dtos/findBookByIdDTO";
 import { updateBookBody, updateBookParams } from "./dtos/updateBookDTO";
-import { UpdateBookService } from "./services/UpdateBookService";
-
-const bookRepository = new BookRepository();
+import { makeCreateBookService } from "./factories/makeCreateBookService";
+import { makeFindAllBookService } from "./factories/makeFindAllBookService";
+import { makeFindBookByIdService } from "./factories/makeFindBookByIdService";
+import { makeUpdateBookService } from "./factories/makeUpdateBookService";
 
 export class BooksController {
-  #bookRepository = bookRepository;
-
   create = async (request: FastifyRequest, reply: FastifyReply) => {
     const { title, author } = createBookBody.parse(request.body);
-    const service = new CreateBookService(this.#bookRepository);
+    const service = makeCreateBookService();
 
     const data = await service.execute({ title, author });
 
@@ -24,7 +19,7 @@ export class BooksController {
   };
 
   findAll = async (_: FastifyRequest, reply: FastifyReply) => {
-    const service = new FindAllBookService(this.#bookRepository);
+    const service = makeFindAllBookService();
 
     const data = await service.execute();
 
@@ -33,7 +28,7 @@ export class BooksController {
 
   findById = async (request: FastifyRequest, reply: FastifyReply) => {
     const { id } = findBookByIdParams.parse(request.params);
-    const service = new FindBookByIdService(this.#bookRepository);
+    const service = makeFindBookByIdService();
 
     const data = await service.execute(id);
 
@@ -44,9 +39,9 @@ export class BooksController {
     const { id } = updateBookParams.parse(request.params);
     const { title, author, available } = updateBookBody.parse(request.body);
 
-    const service = new UpdateBookService(this.#bookRepository);
+    const service = makeUpdateBookService();
 
-    const data = await service.execute(id, { title, author, available });
+    const data = await service.execute({ id, title, author, available });
 
     return reply.status(HttpStatusCode.OK).send(data);
   };
