@@ -1,10 +1,3 @@
-class Book {
-  constructor(
-    public id: string,
-    public title: string,
-    public author: string,
-    public available: boolean = true,
-  ) {}
-}
+import { BookModel } from "@/../generated/prisma/models";
 
-export { Book };
+export type { BookModel as Book };

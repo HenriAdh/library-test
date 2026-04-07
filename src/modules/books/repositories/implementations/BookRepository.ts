@@ -1,25 +1,31 @@
+import { prisma } from "@/shared/lib/prisma";
 import { Book } from "../../entities/Book";
 import { IBookRepository } from "../IBookRepository";
 
 class BookRepository implements IBookRepository {
-  #books: Map<string, Book> = new Map();
-
   async create(data: Book): Promise<Book> {
-    this.#books.set(data.id, data);
+    const book = await prisma.book.create({ data });
 
-    return data;
+    return book;
   }
 
   async findAll(): Promise<Book[]> {
-    return [...this.#books.values()];
+    const books = await prisma.book.findMany();
+
+    return books;
   }
 
   async findById(id: string): Promise<Book | null> {
-    return this.#books.get(id) ?? null;
+    const book = await prisma.book.findUnique({ where: { id } });
+
+    return book;
   }
 
-  async save(book: Book): Promise<void> {
-    this.#books.set(book.id, book);
+  async save({ id, title, author, available, active }: Book): Promise<void> {
+    await prisma.book.update({
+      where: { id: id },
+      data: { title, author, available, active },
+    });
   }
 }
 
