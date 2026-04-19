@@ -1,0 +1,15 @@
+name: library_test
+
+services:
+  db:
+    image: postgres:18
+    container_name: library_test_db
+    env_file:
+      - ../.env.test
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/docker
+
+volumes:
+  postgres_data:

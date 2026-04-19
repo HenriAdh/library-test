@@ -2,12 +2,19 @@ import Fastify from "fastify";
 import { routesRegister } from "./routes";
 import { errorHandler } from "./shared/middlewares/errorHandler";
 
-const logger = process.env.NODE_ENV === "dev" ? true : { level: "info" };
+async function setupServer() {
+  const node_env = process.env.NODE_ENV;
 
-const server = Fastify({ logger });
+  const logger =
+    node_env === "dev" ? true : node_env === "test" ? false : { level: "info" };
 
-server.register(routesRegister);
+  const server = Fastify({ logger });
 
-server.setErrorHandler(errorHandler);
+  await server.register(routesRegister);
 
-export { server };
+  server.setErrorHandler(errorHandler);
+
+  return server;
+}
+
+export { setupServer };

@@ -2,11 +2,12 @@ import { describe, beforeEach, it, expect } from "vitest";
 
 import { InMemoryBookRepository } from "../../repositories/implementations/__mocks__/InMemoryBookRepository";
 import { CreateBookService } from "../CreateBookService";
-
-let repository: InMemoryBookRepository;
-let service: CreateBookService;
+import { UUID_REGEX } from "@/__tests__/__test-utils__/regex.test-util";
 
 describe("CreateBookService", () => {
+  let repository: InMemoryBookRepository;
+  let service: CreateBookService;
+
   beforeEach(() => {
     repository = new InMemoryBookRepository();
     service = new CreateBookService(repository);
@@ -21,6 +22,7 @@ describe("CreateBookService", () => {
     });
 
     expect(book).toHaveProperty("id");
+    expect(book.id).toEqual(expect.stringMatching(UUID_REGEX));
     expect(book.title).toBe(payload.title);
     expect(book.author).toBe(payload.author);
   });

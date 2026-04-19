@@ -1,5 +1,7 @@
 node_modules/
 package-lock.json
 .env
+.env.test
 /generated/prisma
 coverage/
+infra/backup/

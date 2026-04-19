@@ -1,13 +1,13 @@
-name: library_tests
+name: library
 
 services:
   db:
     image: postgres:18
-    container_name: library_tests_db
+    container_name: library_db
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: secret_password
-      POSTGRES_DB: library_tests
+      POSTGRES_DB: library
     ports:
       - "5432:5432"
     volumes:

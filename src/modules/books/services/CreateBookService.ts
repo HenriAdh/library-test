@@ -6,9 +6,15 @@ export class CreateBookService {
   constructor(private bookRepository: IBookRepository) {}
 
   async execute({ author, title }: CreateBookData) {
-    if (!author || !title) {
+    if (!author) {
       throw new BadRequestException(
-        "Nem todos os campos foram preenchidos corretamente",
+        'Campo "Autor" não preenchido corretamente',
+      );
+    }
+
+    if (!title) {
+      throw new BadRequestException(
+        'Campo "Titulo" não preenchido corretamente',
       );
     }
 
