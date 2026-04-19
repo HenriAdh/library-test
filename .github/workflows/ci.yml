@@ -38,11 +38,8 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      - name: Generate Prisma client
-        run: npx prisma generate
-
-      - name: Run migrations
-        run: npx prisma migrate deploy
+      - name: Setup Prisma DB
+        run: npm run prisma:test:setup
 
       - name: Run unit tests
         run: npm run test:unit
